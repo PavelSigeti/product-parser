@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as cheerio from 'cheerio';
+import {yandex} from './yandex/yandex.js';
 
 // const app = express();
 
@@ -21,3 +22,5 @@ import * as cheerio from 'cheerio';
 // });
 
 // app.listen(7000);
+
+yandex();
