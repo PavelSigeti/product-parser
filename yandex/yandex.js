@@ -17,6 +17,7 @@ export const yandex = (html, type) => {
   });
 
   return {
+    result: true,
     attr,
     extra: extraAttr,
   }
