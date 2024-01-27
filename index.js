@@ -3,25 +3,13 @@ import bodyParser from "body-parser";
 import * as cheerio from 'cheerio';
 import {yandex} from './yandex/yandex.js';
 
-// const app = express();
+const app = express();
 
-// app.use(bodyParser.json({ extended: false }));
+app.use(bodyParser.json({ extended: false }));
 
-// const headers = {
-//     'Content-Type': 'application/json'
-//   };
-
-// app.post('/product', async (req,resp) => {
-//     const response = await fetch(req.body.link);
-//     const html = await response.text();
-//     console.log(html);
-//     const $ = cheerio.load(html);
-//     console.log('cheerio', $('div.item').text());
-
-//     resp.json(req.body.link);
-// });
-
-// app.listen(7000);
+const headers = {
+    'Content-Type': 'application/json'
+};
 
 const fetchHtml = async (url) => {
     const response = await fetch(url);
@@ -36,7 +24,15 @@ const fetchHtml = async (url) => {
     }
 }
 
-const html = await fetchHtml('https://webcache.googleusercontent.com/search?q=cache:cuUUYS8sQfMJ:https://market.yandex.ru/product--kholodilnik-indesit-its-4180/824253123/spec%3Fsku%3D101701653802&hl=ru&gl=ru');
+// const html = await fetchHtml('https://webcache.googleusercontent.com/search?q=cache:cuUUYS8sQfMJ:https://market.yandex.ru/product--kholodilnik-indesit-its-4180/824253123/spec%3Fsku%3D101701653802&hl=ru&gl=ru');
 
+// console.log(yandex(html, 'holodilnik'));
 
-yandex(html);
+app.post('/product', async (req,resp) => {
+    console.log(req.body);
+    // const html = await fetchHtml(req.body.link);
+
+    // resp.json(yandex(html, req.body.type));
+});
+
+app.listen(7000);
