@@ -39,4 +39,19 @@ app.post('/product', async (req,resp) => {
     }
 });
 
+app.post('/test', async (req, resp) => {
+    try {
+        const html = await fetchHtml(req.body.link);
+        const $ = cheerio.load(html);
+
+        resp.json($(`${eval(type).main[item][0]} dd`).text());
+        // resp.json(yandex(html, req.body.type));
+    } catch (e) {
+        return resp.json({
+            result: false,
+            msg: e.message,
+        });
+    }
+});
+
 app.listen(7000);
