@@ -2,8 +2,10 @@ import * as cheerio from 'cheerio';
 import {holodilnik} from './holodilnik.js';
 import {stiralnye_mashiny} from './stiralnye-mashiny.js';
 import {kuhonnye_plity} from './kuhonnye-plity.js';
+import {televizory} from './televizory.js';
 
-const mainParser = (val, num) => (num) ? +val.split(' ')[0] : val;
+// const mainParser = (val, num) => (num) ? +val.split(' ')[0] : val;
+const mainParser = (val, num) => (num) ? +val.replace(/[^+\d]/g, '') : val;
 
 export const yandex = (html, slug) => {
   const type = slug.replace('-', '_');
