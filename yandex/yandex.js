@@ -3,12 +3,19 @@ import {holodilnik} from './holodilnik.js';
 import {stiralnye_mashiny} from './stiralnye-mashiny.js';
 import {kuhonnye_plity} from './kuhonnye-plity.js';
 import {televizory} from './televizory.js';
+import {konditsionery} from './konditsionery.js';
+import {varochnye_paneli} from './varochnye-paneli.js';
+import {duhovye_shkafy} from './duhovye-shkafy.js';
+import {morozilniki_i_lari} from './morozilniki-i-lari.js';
+import {vytyazhki} from './vytyazhki.js';
+import {vodonagrevateli} from './vodonagrevateli.js';
+import {posudomoechnye_mashiny} from './posudomoechnye-mashiny.js';
 
 // const mainParser = (val, num) => (num) ? +val.split(' ')[0] : val;
-const mainParser = (val, num) => (num) ? +val.replace(/[^+\d]/g, '') : val;
+const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 export const yandex = (html, slug) => {
-  const type = slug.replace('-', '_');
+  const type = slug.replaceAll('-', '_');
   const $ = cheerio.load(html);
 
   const attr = {};
@@ -21,10 +28,14 @@ export const yandex = (html, slug) => {
     };
   });
   Object.keys(eval(type).extra).forEach((item) => {
-    extraAttr[item] = {
-      name: eval(type).extra[item][1],
-      value: $(`${eval(type).extra[item][0]} dd`).text(),
-    };
+    const val = $(`${eval(type).extra[item][0]} dd`).text();
+    // if(val.length > 0) {
+      extraAttr[item] = {
+        name: eval(type).extra[item][1],
+        value: val,
+      };
+    // }
+    
   });
 
   return {
