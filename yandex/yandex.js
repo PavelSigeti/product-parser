@@ -29,12 +29,12 @@ export const yandex = (html, slug) => {
   });
   Object.keys(eval(type).extra).forEach((item) => {
     const val = $(`${eval(type).extra[item][0]} dd`).text();
-    // if(val.length > 0) {
+    if(val.length > 0) {
       extraAttr[item] = {
         name: eval(type).extra[item][1],
         value: val,
       };
-    // }
+    }
     
   });
 

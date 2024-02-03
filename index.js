@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import * as cheerio from 'cheerio';
 import {yandex} from './yandex/yandex.js';
+import {yandexImg} from './yandex/yandex-img.js';
+import {img} from './img.js';
 import cors from 'cors';
 
 const app = express();
@@ -9,10 +11,6 @@ const app = express();
 app.use(bodyParser.json({ extended: false }));
 
 app.use(cors());
-
-const headers = {
-    'Content-Type': 'application/json'
-};
 
 const fetchHtml = async (url) => {
     const response = await fetch(url);
@@ -39,13 +37,14 @@ app.post('/product', async (req,resp) => {
     }
 });
 
-app.post('/test', async (req, resp) => {
+app.post('/img', async (req, resp) => {
     try {
-        const html = await fetchHtml(req.body.link);
-        const $ = cheerio.load(html);
+        const elementsData = await img(req.body.link);
 
-        resp.json($(`${eval(type).main[item][0]} dd`).text());
-        // resp.json(yandex(html, req.body.type));
+        resp.json({
+            result: true,
+            data: elementsData,
+        });
     } catch (e) {
         return resp.json({
             result: false,
@@ -53,5 +52,6 @@ app.post('/test', async (req, resp) => {
         });
     }
 });
+
 
 app.listen(7000);
