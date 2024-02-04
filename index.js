@@ -5,6 +5,7 @@ import {yandex} from './yandex/yandex.js';
 import {yandexImg} from './yandex/yandex-img.js';
 import {img} from './img.js';
 import cors from 'cors';
+import { citilink } from "./citilink/citilink.js";
 
 const app = express();
 
@@ -25,13 +26,27 @@ const fetchHtml = async (url) => {
     }
 }
 
-app.post('/product', async (req,resp) => {
+app.post('/yandex', async (req,resp) => {
     try {
         const html = await fetchHtml(req.body.link);
         resp.json(yandex(html, req.body.type));
     } catch (e) {
         return resp.json({
             result: false,
+            type: 'yandex',
+            msg: e.message,
+        });
+    }
+});
+
+app.post('/citilink', async (req, resp) => {
+    try {
+        const data = await citilink(req.body.link, req.body.type);
+        resp.send(data);
+    } catch (e) {
+        return resp.json({
+            result: false,
+            type: 'citilink',
             msg: e.message,
         });
     }
@@ -40,7 +55,7 @@ app.post('/product', async (req,resp) => {
 app.post('/img', async (req, resp) => {
     try {
         const elementsData = await img(req.body.link);
-
+        // resp.send(elementsData);
         resp.json({
             result: true,
             data: elementsData,

@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
-import {mvideoImg} from './mvideo/mvideo-img.js';
+import { mvideoImg } from './mvideo/mvideo-img.js';
+import { citilinkImg } from './citilink/citilink-img.js';
 
 
 export const img = async (link) => {
@@ -13,6 +14,19 @@ export const img = async (link) => {
             elementsData.push('https:' + $(element).attr('src'));
         });
         
+        return elementsData;
+    }
+
+    if (link.includes('citilink')) {
+        // data-meta-name="PopupImageGallery__main"
+        const html = await citilinkImg(link);
+        const $ = cheerio.load(html);
+
+        const elementsData = [];
+        $('div[data-meta-name="PopupImageGallery__main"] img').each((index, element) => {
+            elementsData.push($(element).attr('src'));
+        });
+
         return elementsData;
     }
 
