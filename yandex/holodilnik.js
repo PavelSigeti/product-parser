@@ -17,6 +17,6 @@ export const holodilnik = {
         'tip-upravleniia': ['#tip upravleniia'.replace(/\s/g, '\\ '), 'Тип управления'],
         'uroven-shuma': ['#uroven shuma'.replace(/\s/g, '\\ '), 'Уровень шума'],
         'minimalnaia-temperatura-v-morozilnoi-kamere': ['#minimalnaia temperatura v morozilnoi kamere'.replace(/\s/g, '\\ '), 'Минимальная температура в морозильной камере'],
-        'material pokrytiia': ['#material pokrytiia'.replace(/\s/g, '\\ '), 'Материал покрытия'],
+        'material-pokrytiia': ['#material pokrytiia'.replace(/\s/g, '\\ '), 'Материал покрытия'],
     }
 };
