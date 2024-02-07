@@ -8,6 +8,8 @@ import {konditsionery} from './konditsionery.js';
 import {varochnye_paneli} from './varochnye-paneli.js';
 import {duhovye_shkafy} from './duhovye-shkafy.js'; 
 import {morozilniki_i_lari} from './morozilniki-i-lari.js'; 
+import {posudomoechnye_mashiny} from './posudomoechnye-mashiny.js'; 
+import {vodonagrevateli} from './vodonagrevateli.js'; 
 
 
 export const citilink = async (link, slug) => {
@@ -35,9 +37,7 @@ export const citilink = async (link, slug) => {
     });
 
     const $2 = cheerio.load(ul);
-
     const divClass = $2('div').first().attr('class').split(' ')[0];
-
     const attrData = {};
 
     $2(`div.${divClass}`).each((idx, el) => {
