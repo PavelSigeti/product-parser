@@ -50,7 +50,6 @@ export const morozilniki_i_lari = (attrData) => {
             };
             console.log(item);
         }
-        
     });
     try {
         const svg = attrData['Размеры (ШхВхГ)'].split(' ').map(val=>mainParser(val, true));

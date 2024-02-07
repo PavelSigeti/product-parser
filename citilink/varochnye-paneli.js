@@ -36,14 +36,14 @@ export const varochnye_paneli = (attrData) => {
             if(data.main[item][3]) {
                 attr[data.main[item][0]] = {
                     name: data.main[item][2],
-                    value: data.main[item][3][attrData[item]],
+                    value: data.main[item][3][attrData[item]].toLowerCase(),
                 };
             } else if(data.main[item][4]) {
                 data.main[item][4].forEach((key) =>{
                     if(attrData[key]) {
                         attr[data.main[item][0]] = {
                             name: data.main[item][2],
-                            value: attrData[key].toLowerCase(),
+                            value: mainParser(attrData[key], data.main[item][1]),
                         };  
                     }
                 });
