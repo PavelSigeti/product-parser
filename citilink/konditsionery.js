@@ -18,7 +18,7 @@ const data = {
     }
 };
 
-export const konditsionery = () => {
+export const konditsionery = (attrData) => {
     const attr = {};
     const extraAttr = {};
 
