@@ -25,25 +25,32 @@ export const televizory = (attrData) => {
     const extraAttr = {};
 
     Object.keys(data.main).forEach((item) => {
-        if(data.main[item][3]) {
+        try {
+            if(data.main[item][3]) {
+                attr[data.main[item][0]] = {
+                    name: data.main[item][2],
+                    value: data.main[item][3][attrData[item]],
+                };
+            } else if(data.main[item][4]) {
+                data.main[item][4].forEach((key) =>{
+                    if(attrData[key]) {
+                        attr[data.main[item][0]] = {
+                            name: data.main[item][2],
+                            value: attrData[key].toLowerCase(),
+                        };  
+                    }
+                });
+            } else {
+                attr[data.main[item][0]] = {
+                    name: data.main[item][2],
+                    value: mainParser(attrData[item], data.main[item][1]),
+                };
+            }
+        } catch (e) {
             attr[data.main[item][0]] = {
                 name: data.main[item][2],
-                value: data.main[item][3][attrData[item]],
             };
-        } else if(data.main[item][4]) {
-            data.main[item][4].forEach((key) =>{
-                if(attrData[key]) {
-                    attr[data.main[item][0]] = {
-                        name: data.main[item][2],
-                        value: attrData[key].toLowerCase(),
-                    };  
-                }
-            });
-        } else {
-            attr[data.main[item][0]] = {
-                name: data.main[item][2],
-                value: mainParser(attrData[item], data.main[item][1]),
-            };
+            console.log(item);
         }
     });
 

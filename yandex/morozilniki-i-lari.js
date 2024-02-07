@@ -3,7 +3,7 @@ export const morozilniki_i_lari = {
         'tip-morozilnika': ['#tip morozilnika'.replace(/\s/g, '\\ '), false, 'Тип морозильника'],
         'razmorazhivanie': ['#razmorazhivanie', false, 'Размораживание'],
         'kolichestvo-iashchikov/polok': ['#kolichestvo iashchikov/polok'.replace(/\s/g, '\\ '), true, 'Количество ящиков/полок'],
-        'obshchii-obem': ['#obshchii obem'.replace(/\s/g, '\\ '), false, 'Общий объем'],
+        'obshchii-obem': ['#obshchii obem'.replace(/\s/g, '\\ '), true, 'Общий объем'],
         'vysota': ['#vysota', true, 'Высота'],
         'shirina': ['#shirina', true, 'Ширина'],
         'glubina': ['#glubina', true, 'Глубина'],

@@ -5,6 +5,9 @@ import {holodilnik} from './holodilnik.js';
 import {kuhonnye_plity} from './kuhonnye-plity.js';
 import {televizory} from './televizory.js';
 import {konditsionery} from './konditsionery.js';
+import {varochnye_paneli} from './varochnye-paneli.js';
+import {duhovye_shkafy} from './duhovye-shkafy.js'; 
+import {morozilniki_i_lari} from './morozilniki-i-lari.js'; 
 
 
 export const citilink = async (link, slug) => {
