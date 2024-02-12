@@ -33,7 +33,7 @@ export const holodilnik = async (attrData) => {
             if(data.main[item][3]) {
                 attr[data.main[item][0]] = {
                     name: data.main[item][2],
-                    value: data.main[item][3][attrData[item]].toLowerCase(),
+                    value: data.main[item][3][attrData[item]],
                 };
             } else if(data.main[item][4]) {
                 data.main[item][4].forEach((key) =>{
