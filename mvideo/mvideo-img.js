@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 
 export const mvideoImg = async (link) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--disable-setuid-sandbox']});
 
     const page = await browser.newPage();
 
