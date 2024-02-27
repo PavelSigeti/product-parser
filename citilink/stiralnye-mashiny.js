@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -53,6 +55,7 @@ export const stiralnye_mashiny = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
 
     const svg = attrData['Размеры (ШхВхГ)'].split(' х ').map(val=>mainParser(val, true));
@@ -60,13 +63,13 @@ export const stiralnye_mashiny = (attrData) => {
     attr['vysota'] = {name: 'Высота', value: svg[1]};
     attr['glubina'] = {name: 'Глубина', value: svg[2]};
 
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
-                value: attrData[item],
-              };
-        }
+    if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
+
+    Object.keys(attrData).forEach((item) => {
+        extraAttr[translit(item)] = {
+            name: item,
+            value: attrData[item],
+        };
     });
 
     return {"result": true, attr: attr, extra: extraAttr};
