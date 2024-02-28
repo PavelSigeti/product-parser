@@ -13,14 +13,7 @@ const data = {
         'Сушка': ['sushka', false, 'Сушка', {'есть': 'да', 'нет':'нет'}],
     },
 
-    extra: {
-        'Вес (нетто)': ['ves', 'Вес'],
-        'Тип управления': ['tip-upravleniia', 'Тип управления'],
-        'Класс энергопотребления': ['klass-energopotrebleniia', 'Класс энергопотребления'],
-        'Количество программ': ['kolichestov-programm', 'Количество программ'],
-        'Прямой привод': ['pryamoi-privod', 'Прямой привод'],
-        'Максимальная загрузка на сушку': ['maksimalnaya-zagruzka-na-sushku', 'Максимальная загрузка на сушку']
-    }
+    extra: ['Гарантия2', 'Особенности', 'Бренд', 'Модель']
 };
 
 export const stiralnye_mashiny = (attrData) => {
@@ -66,10 +59,12 @@ export const stiralnye_mashiny = (attrData) => {
     if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
 
     Object.keys(attrData).forEach((item) => {
-        extraAttr[translit(item)] = {
-            name: item,
-            value: attrData[item],
-        };
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
+                value: attrData[item],
+            };
+        }
     });
 
     return {"result": true, attr: attr, extra: extraAttr};
