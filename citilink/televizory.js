@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -7,17 +9,7 @@ const data = {
         'Стандарт разрешения экрана': ['razreshenie-hd', false, 'Разрешение HD', {'4K Ultra HD': '4K UHD', '8K Ultra HD': '8K UHD', 'HD': '720p HD', 'FULL HD': 'Full HD',}],
     },
 
-    extra: {
-        'Тип панели': ['tekhnologiia-ekrana', 'Технология экрана'],
-        'Операционная система': ['platforma-smart-tv', 'Платформа Smart TV'],
-        'Углы обзора': ['ugol-obzora', 'Угол обзора'],
-        'Разрешение': ['razreshenie', 'Разрешение'],
-        'Размер VESA': ['standart-krepleniia-vesa', 'Стандарт крепления VESA'],
-        'Размеры с подставкой (ШxВxГ)': ['razmery-s-podstavkoi-(shxvxg)', 'Размеры с подставкой (ШxВxГ)'],
-        'Вес товара': ['ves-s-podstavkoi', 'Вес с подставкой'],
-        'Размеры без подставки (ШxВxГ)': ['razmery-bez-podstavki-(shxvxg)', 'Размеры без подставки (ШxВxГ)'],
-        'Вес без подставки': ['ves-bez-podstavki', 'Вес без подставки'],
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности']
 };
 
 export const televizory = (attrData) => {
@@ -52,14 +44,15 @@ export const televizory = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
 
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
+    Object.keys(attrData).forEach((item) => {
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
                 value: attrData[item],
-              };
+            };
         }
     });
 

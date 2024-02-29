@@ -16,13 +16,7 @@ const data = {
         'Количество дверей': ['kolichestvo-dverei', true, 'Количество дверей'],
     },
 
-    extra: {
-        'Вес упаковки (ед)': ['ves', 'Вес'],
-        'Тип управления': ['tip-upravleniia', 'Тип управления'],
-        'Температура морозильной камеры min': ['minimalnaia-temperatura-v-morozilnoi-kamere', 'Минимальная температура в морозильной камере'],
-        'Материал полок': ['material-polok', 'Материал полок'],
-        'Количество полок': ['kolichestvo-polok', 'Количество полок'],
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности', 'Количество полок', 'Количество ящиков', 'Количество ящиков2']
 };
 
 export const holodilnik = async (attrData) => {
@@ -68,10 +62,12 @@ export const holodilnik = async (attrData) => {
     if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
 
     Object.keys(attrData).forEach((item) => {
-        extraAttr[translit(item)] = {
-            name: item,
-            value: attrData[item],
-        };
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
+                value: attrData[item],
+            };
+        }
     });
 
     return {"result": true, attr: attr, extra: extraAttr};

@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -8,14 +10,7 @@ const data = {
         // 'tip-konditsionera': ['tip-konditsionera', false, 'Тип кондиционера'],
     },
 
-    extra: {
-        'Пульт ДУ': ['pult', 'Пульт ДУ'],
-        'Тип установки внутреннего блока': ['tip-vnutrennego-bloka', 'Тип внутреннего блока'],
-        'Режимы работы': ['rezhim-raboty', 'Режим работы'],
-        'Класс энергопотребления, охлаждение': ['klass-energopotrebleniia', 'Класс энергопотребления'],
-        'Размеры внутреннего блока (ШхВхГ)': ['razmeri', 'Размеры внутреннего блока (ШхВхГ)'],
-        'Автоочистка': ['avtootchistka', 'Автоочистка'],
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности']
 };
 
 export const konditsionery = (attrData) => {
@@ -50,14 +45,15 @@ export const konditsionery = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
 
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
+    Object.keys(attrData).forEach((item) => {
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
                 value: attrData[item],
-              };
+            };
         }
     });
 

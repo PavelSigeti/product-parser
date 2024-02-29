@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -11,17 +13,7 @@ const data = {
         // 'glubina': ['#glubina', true, 'Глубина'],
     },
 
-    extra: {
-        'Гриль': ['gril', 'Гриль'],
-        'Конвекция': ['konvektsiia', 'Конвекция'],
-        'Класс энергоэффективности': ['klass-energopotrebleniia', 'Класс энергопотребления'],
-        'Количество программ духовки': ['chislo-avtomaticheskikh-programm', 'Число автоматических программ'],
-        'Переключатели': ['perekliuchateli', 'Переключатели'],
-        'Электроподжиг': ['elektropodzhig', 'Электроподжиг'],
-        'Газ-контроль': ['gaz-kontrol', 'Газ-контроль'],
-        'Таймер': ['timer', 'Таймер'],
-        'Размеры ниши для встраивания (ШхГхВ)': ['nisha', 'Размеры ниши для встраивания (ШхГхВ)']
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности']
 };
 
 export const duhovye_shkafy = (attrData) => {
@@ -56,23 +48,31 @@ export const duhovye_shkafy = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
     try {
-        const svg = attrData['Размеры (ШхГхВ)'].split(' ').map(val=>mainParser(val, true));
+        let svg;
+        if(attrData['Размеры (ШхВхГ)']) {
+            svg = attrData['Размеры (ШхВхГ)'].split(' ').map(val=>mainParser(val, true));
+        } else {
+            svg = attrData['Размеры (Ш х В х Г)'].split(' ').map(val=>mainParser(val, true));
+        }
         attr['shirina'] = {name: 'Ширина', value: svg[0]};
-        attr['vysota'] = {name: 'Высота', value: svg[4]};
-        attr['glubina'] = {name: 'Глубина', value: svg[2]};
+        attr['vysota'] = {name: 'Высота', value: svg[2]};
+        attr['glubina'] = {name: 'Глубина', value: svg[4]};
+
+        if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
+        if(attrData['Размеры (Ш х В х Г)']) delete(attrData['Размеры (Ш х В х Г)']);
     } catch(e) {
-        console.log('Размеры (ШхГхВ)');
+        console.log('Размеры (ШхВхГ)');
     }
     
-
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
+    Object.keys(attrData).forEach((item) => {
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
                 value: attrData[item],
-              };
+            };
         }
     });
 

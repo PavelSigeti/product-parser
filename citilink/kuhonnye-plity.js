@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -10,20 +12,7 @@ const data = {
         // 'glubina': ['#glubina', true, 'Глубина'],
     },
 
-    extra: {
-        'Управление': ['tip-upravleniia', 'Тип управления'],
-        'Материал рабочей поверхности': ['material-rabochei-poverkhnosti', 'Материал рабочей поверхности'],
-        'Газ-контроль конфорок': ['gaz-kontrol', 'Газ-контроль'],
-        'Очистка духовки': ['ochistka-dukhovki', 'Очистка духовки'],
-        'Объем духовки': ['obem-dukhovki', 'Объем духовки'],
-        'Конвекция в духовке': ['konvektsiia-v-dukhovke', 'Конвекция в духовке'],
-        'Электроподжиг': ['elektropodzhig', 'Электроподжиг'],
-        'Гриль': ['gril', 'Гриль'],
-        'Вес': ['ves', 'Вес'],
-        'Максимальный вес нагрузки': ['max-ves-nagruzki', 'Максимальный вес нагрузки'],
-        'Присоединительная резьба газопровода': ['rezba-gazoprovoda', 'Присоединительная резьба газопровода'],
-        'Освещение духовки': ['osveshenie-duhovki', 'Освещение духовки'],
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности']
 };
 
 export const kuhonnye_plity = (attrData) => {
@@ -58,6 +47,7 @@ export const kuhonnye_plity = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
 
     try {
@@ -65,16 +55,18 @@ export const kuhonnye_plity = (attrData) => {
         attr['shirina'] = {name: 'Ширина', value: svg[0]};
         attr['vysota'] = {name: 'Высота', value: svg[2]};
         attr['glubina'] = {name: 'Глубина', value: svg[4]};
+
+        if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
     } catch (e) {
         console.log('ШхВхГ');
     }
     
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
+    Object.keys(attrData).forEach((item) => {
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
                 value: attrData[item],
-              };
+            };
         }
     });
 

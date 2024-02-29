@@ -1,3 +1,5 @@
+import { translit } from "../translit.js";
+
 const mainParser = (val, num) => (num) ? +val.replace(/[^.\d]/g, '') : val;
 
 const data = {
@@ -11,25 +13,12 @@ const data = {
         // 'glubina-dlia-vstraivaniia': ['glubina-dlia-vstraivaniia', true, 'Глубина для встраивания'],
     },
 
-    extra: {
-        'Тип переключателей': ['perekliuchateli', 'Переключатели'],
-        'Электроподжиг': ['elektropodzhig', 'Электроподжиг'],
-        'Газ-контроль': ['gaz-kontrol-konforok', 'Газ-контроль конфорок'],
-        'Таймер': ['timer', 'Таймер'],
-        'Управление': ['upravlenie', 'Управление'],
-        'Материал поверхности': ['material-poverhnosi', 'Материал поверхности'],
-        'Материал рабочей поверхности': ['material-poverhnosi', 'Материал поверхности'],
-        'Материал решетки': ['material-reshetki', 'Материал решетки'],
-        'Дисплей': ['display', 'Дисплей'],
-        'Установка рабочей поверхности': ['ustanovka', 'Установка рабочей поверхности'],
-    }
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности']
 };
 
 export const varochnye_paneli = (attrData) => {
     const attr = {};
     const extraAttr = {};
-
-    // return attrData;
 
     Object.keys(data.main).forEach((item) => {
         try {
@@ -59,6 +48,7 @@ export const varochnye_paneli = (attrData) => {
             };
             console.log(item);
         }
+        if(attrData[item]) delete attrData[item];
     });
     try {
         if(attrData['Размеры (ШхГ)']) {
@@ -70,7 +60,7 @@ export const varochnye_paneli = (attrData) => {
             attr['shirina'] = {name: 'Ширина', value: +svg[0]};
             attr['glubina'] = {name: 'Глубина', value: +svg[4]};
         }
-        
+        if(attrData['Размеры (ШхГ)']) delete(attrData['Размеры (ШхГ)']);
     } catch (e) {
         console.log(e.message);
     }
@@ -85,19 +75,17 @@ export const varochnye_paneli = (attrData) => {
             attr['shirina-dlia-vstraivaniia'] = {name: 'Ширина для встраивания', value: +svg2[0] / 10};
             attr['glubina-dlia-vstraivaniia'] = {name: 'Глубина для встраивания', value: +svg2[2] / 10};
         }
-        
+        if(attrData['Размеры ниши для встраивания (ШхГ)']) delete(attrData['Размеры ниши для встраивания (ШхГ)']);
     } catch (e) {
         console.log(e.message);
     }
-    
 
-
-    Object.keys(data.extra).forEach((item) => {
-        if(attrData[item]) {
-            extraAttr[data.extra[item][0]] = {
-                name: data.extra[item][1],
+    Object.keys(attrData).forEach((item) => {
+        if(!data.extra.includes(item)) {
+            extraAttr[translit(item)] = {
+                name: item,
                 value: attrData[item],
-              };
+            };
         }
     });
 
