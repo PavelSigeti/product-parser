@@ -20,10 +20,11 @@ export const img = async (link) => {
     if (link.includes('citilink')) {
         // data-meta-name="PopupImageGallery__main"
         const html = await citilinkImg(link);
+        // return html;
         const $ = cheerio.load(html);
 
         const elementsData = [];
-        $('div[data-meta-name="PopupImageGallery__main"] img').each((index, element) => {
+        $('div[data-meta-name="PopupImageGallery"] img').each((index, element) => {
             elementsData.push($(element).attr('src'));
         });
 

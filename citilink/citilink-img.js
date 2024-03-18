@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 
 export const citilinkImg = async (link) => {
+    // const browser = await puppeteer.launch();
     const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--disable-setuid-sandbox']});
 
     const page = await browser.newPage();
@@ -16,7 +17,10 @@ export const citilinkImg = async (link) => {
     const selector = '[data-meta-name="ImageGallery__main"]'; 
     await page.waitForSelector(selector, { visible: true });
 
-    await page.click('[data-meta-name="ImageGallery__main"]');
+    await page.click('[data-meta-id="GallerySlide_0"]');
+
+    const selector2 = '[data-meta-name="PopupImageGallery"]'; 
+    await page.waitForSelector(selector2, { visible: true });
 
     const html = await page.content();
 
