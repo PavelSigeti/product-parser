@@ -24,7 +24,7 @@ export const img = async (link) => {
         const $ = cheerio.load(html);
 
         const elementsData = [];
-        $('div[data-meta-name="PopupImageGallery"] img').each((index, element) => {
+        $('div[data-meta-name="PopupImageGallery__main"] img').each((index, element) => {
             elementsData.push($(element).attr('src'));
         });
 
