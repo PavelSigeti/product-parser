@@ -12,7 +12,8 @@ export const citilinkImg = async (link) => {
 
     page.setDefaultNavigationTimeout(0);
 
-    await page.goto(link, { waitUntil: 'networkidle0' });
+    // await page.goto(link, { waitUntil: 'networkidle0' });
+    await page.goto(link);
 
     const selector = '[data-meta-name="ImageGallery__main"]'; 
     await page.waitForSelector(selector, { visible: true });

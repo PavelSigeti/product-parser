@@ -22,12 +22,12 @@ export const citilink = async (link, slug) => {
 
     page.setDefaultNavigationTimeout(0);
 
-    await page.goto(link, { waitUntil: 'networkidle0' });
+    await page.goto(link);
+    // await page.goto(link, { waitUntil: 'networkidle0' }); somtimes works
     // await new Promise(resolve => setTimeout(resolve, 3000));
 
     const html = await page.content();
     await browser.close();
-
     const $ = cheerio.load(html);
     let ul;
 
