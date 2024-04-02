@@ -14,16 +14,16 @@ import {vodonagrevateli} from './vodonagrevateli.js';
 
 export const citilink = async (link, slug) => {
     const type = slug.replaceAll('-', '_');
-    const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--disable-setuid-sandbox']});
-    // const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0');
     await page.setViewport({ width: 1920, height: 1080 });
 
     page.setDefaultNavigationTimeout(0);
 
-    await page.goto(link);
-    // await page.goto(link, { waitUntil: 'networkidle0' }); somtimes works
+    // await page.goto(link);
+    await page.goto(link, { waitUntil: 'networkidle2' }); //somtimes works
     // await new Promise(resolve => setTimeout(resolve, 3000));
 
     const html = await page.content();
