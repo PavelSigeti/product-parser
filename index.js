@@ -42,7 +42,9 @@ app.post('/yandex', async (req,resp) => {
 app.post('/citilink', async (req, resp) => {
     try {
         const data = await citilink(req.body.link, req.body.type);
-        resp.send(data);
+        // const elementsData = await img(req.body.link);
+        // data.img = elementsData;
+        resp.json(data);
     } catch (e) {
         return resp.json({
             result: false,

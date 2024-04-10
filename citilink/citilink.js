@@ -12,7 +12,8 @@ import {posudomoechnye_mashiny} from './posudomoechnye-mashiny.js';
 import {vodonagrevateli} from './vodonagrevateli.js'; 
 
 
-export const citilink = async (link, slug) => {
+export const citilink = async (url, slug) => {
+    const link = url + '/properties/';
     const type = slug.replaceAll('-', '_');
     const browser = await puppeteer.launch({executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--disable-setuid-sandbox']});
     // const browser = await puppeteer.launch();
@@ -25,6 +26,14 @@ export const citilink = async (link, slug) => {
     // await page.goto(link);
     await page.goto(link, { waitUntil: 'networkidle2' }); //somtimes works
     // await new Promise(resolve => setTimeout(resolve, 3000));
+
+    const selector = '[data-meta-name="ImageGallery__main"]'; 
+    await page.waitForSelector(selector, { visible: true });
+
+    await page.click('[data-meta-id="GallerySlide_0"]');
+
+    const selector2 = '[data-meta-name="PopupImageGallery"]'; 
+    await page.waitForSelector(selector2, { visible: true });
 
     const html = await page.content();
     await browser.close();
@@ -52,5 +61,13 @@ export const citilink = async (link, slug) => {
         }
     });
 
-    return eval(type)(attrData);
+    const elementsData = [];
+    $('div[data-meta-name="PopupImageGallery__main"] img').each((index, element) => {
+        elementsData.push($(element).attr('src'));
+    });
+
+    return {
+        ...eval(type)(attrData),
+        img: elementsData,
+    };
 };
