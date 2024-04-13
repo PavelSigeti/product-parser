@@ -16,7 +16,7 @@ const data = {
         'Количество дверей': ['kolichestvo-dverei', true, 'Количество дверей'],
     },
 
-    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности', 'Количество полок', 'Количество ящиков', 'Количество ящиков2']
+    extra: ['Гарантия2', 'Бренд', 'Модель', 'Гарантия', 'Особенности', 'Количество полок', 'Количество ящиков', 'Количество ящиков2', 'Тип']
 };
 
 export const holodilnik = async (attrData) => {
@@ -54,12 +54,22 @@ export const holodilnik = async (attrData) => {
         if(attrData[item]) delete attrData[item];
     });
 
-    const svg = attrData['Размеры (ШхВхГ)'].split(' х ').map(val=>mainParser(val, true));
-    attr['shirina'] = {name: 'Ширина', value: svg[0]};
-    attr['vysota'] = {name: 'Высота', value: svg[1]};
-    attr['glubina'] = {name: 'Глубина', value: svg[2]};
+    try {
+        let svg;
+        if(attrData['Размеры (ШхВхГ)']) {
+            svg = attrData['Размеры (ШхВхГ)'].split(' ').map(val=>mainParser(val, true));
+        } else {
+            svg = attrData['Размеры (Ш х В х Г)'].split(' ').map(val=>mainParser(val, true));
+        }
+        attr['shirina'] = {name: 'Ширина', value: svg[0]};
+        attr['vysota'] = {name: 'Высота', value: svg[2]};
+        attr['glubina'] = {name: 'Глубина', value: svg[4]};
 
-    if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
+        if(attrData['Размеры (ШхВхГ)']) delete(attrData['Размеры (ШхВхГ)']);
+        if(attrData['Размеры (Ш х В х Г)']) delete(attrData['Размеры (Ш х В х Г)']);
+    } catch(e) {
+        console.log('Размеры (ШхВхГ)');
+    }
 
     Object.keys(attrData).forEach((item) => {
         if(!data.extra.includes(item)) {

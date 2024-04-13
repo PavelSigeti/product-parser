@@ -9,7 +9,7 @@ import {varochnye_paneli} from './varochnye-paneli.js';
 import {duhovye_shkafy} from './duhovye-shkafy.js'; 
 import {morozilniki_i_lari} from './morozilniki-i-lari.js'; 
 import {posudomoechnye_mashiny} from './posudomoechnye-mashiny.js'; 
-import {vodonagrevateli} from './vodonagrevateli.js'; 
+import {vodonagrevateli} from './vodonagrevateli.js';
 
 
 export const citilink = async (url, slug) => {
@@ -65,9 +65,9 @@ export const citilink = async (url, slug) => {
     $('div[data-meta-name="PopupImageGallery__main"] img').each((index, element) => {
         elementsData.push($(element).attr('src'));
     });
-
+    const data = await eval(type)(attrData);
     return {
-        ...eval(type)(attrData),
+        ...data,
         img: elementsData,
     };
 };
